@@ -25,7 +25,4 @@ checkpoints/
 .DS_Store
 *.log
 
-# Ignore large result files
-results/*.csv
-results/*.txt
-results/*.log
+mamba/
