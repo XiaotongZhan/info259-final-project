@@ -1,0 +1,56 @@
+classifiacation.ipynb:
+描述：原始 Mamba-based baseline
+主要特点：
+使用 纯 Mamba Encoder 进行节点时序建模
+仅使用节点特征 (x)，无图结构 (edge_index) 输入
+采用简单 Mean Pooling 聚合节点
+损失函数：Smooth Cross Entropy (smoothing=0.1)
+其他稳定措施：
+Gradient Clipping (max_norm=1.0)
+LayerNorm 输入归一化
+训练设置：
+batch_size=16
+hidden_dim=128
+num_layers=2
+AdamW优化器
+
+性能 (Twitter15 validation set)：
+Best Hyperparameters: {'lr': 5e-05, 'weight_decay': 0.0}
+Best Val F1: 0.6521
+Test Accuracy: 0.5938
+Test Macro-F1: 0.5902
+
+classifiacation_v2.ipynb:
+
+1. 引入图结构（Graph Structure）
+不再仅使用节点特征 (x)。
+每个节点的邻接关系 (edge_index) 也作为模型输入，建模信息传播结构。
+2. 时序建模与图建模联合
+采用 Mamba Encoder 捕捉节点时序动态。
+叠加 GCN (Graph Convolutional Network)，基于传播链邻接关系进一步更新节点表示。
+
+性能 (Twitter15 validation set)：
+Best Hyperparameters: {'lr': 5e-05, 'weight_decay': 0.05}
+Best Val F1: 0.6840
+Test Accuracy: 0.6027
+Test Macro-F1: 0.6029
+
+
+classifiacation_v3.ipynb:
+1. 批处理图（Batch-wise Graph Construction）
+在 collate_fn 中，将每个样本的 edge_index 按 batch 编号偏移后拼接成一个大图。
+支持在整个 mini-batch 上统一执行 GCN卷积。
+提高了训练效率与数值稳定性。
+2. 模型结构模块化
+将 GCN操作封装为独立的 GraphEncoder 类，便于后续扩展和修改。
+MambaEncoder 处理节点时序特征，GraphEncoder 处理节点传播关系特征。
+实现了时序建模（Mamba）和图结构建模（GCN）的模块化组合。
+
+性能 (Twitter15 validation set)：
+Best Hyperparameters: {'lr': 5e-05, 'weight_decay': 0.05}
+Best Validation Macro-F1: 0.6461
+Test Accuracy: 0.6429
+Test Macro-F1: 0.6426
+
+causalmamba_v1.ipynb
+大版本变更

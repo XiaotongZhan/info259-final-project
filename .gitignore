@@ -1,0 +1,31 @@
+# Ignore checkpoints and temporary files
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+
+# Ignore environment backups
+backup_env.txt
+
+# Ignore data folders
+data/
+processed/
+
+# If you still want to keep some small files in data/processed/ (optional strategy)
+# You can allowlist certain files by removing the comment (#) below and adjusting:
+# !data/README.md
+# !processed/README.md
+
+# Ignore model checkpoints (if large)
+checkpoints/
+
+# Ignore OS or editor specific files
+.DS_Store
+*.log
+
+# Ignore large result files
+results/*.csv
+results/*.txt
+results/*.log
